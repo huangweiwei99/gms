@@ -1,0 +1,62 @@
+{extend name="common@/base" /}
+{block name="pagePluinsJS"}
+<script src="__STATIC__/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+<script src="__STATIC__/assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
+{/block}
+{block name="pageLevelJS"}
+<script src="__STATIC__/assets/global/scripts/modal-form.js" type="text/javascript"></script>
+<script src="__STATIC__/assets/pages/scripts/account/role.js" type="text/javascript"></script>
+{/block}
+{block name="content"}
+<div class="row">
+    <div class="col-lg-12 col-xs-12 col-sm-12">
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption sunglo"></div>
+            <div class="actions">
+                <div class="btn-group">
+                    <a src="#" class="pull-right tooltips btn btn-fit-height  btn-outline green " data-toggle="dropdown">
+                        动作<i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu pull-right" role="menu">
+                        <li>
+                            <a href="create" data-modal  title="添加用户组">
+                                <i class="icon-bell"></i>添加用户组
+                            </a>
+                        </li>
+                        <li class="divider">
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="icon-bag">
+                                </i>
+                                添加成员
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                {volist name="list" id="role"}
+                <div class="col-md-2 col-sm-2 col-xs-6">
+                    <div class="color-demo tooltips">
+                        <a href="{$role->id}" data-modal  title="修改{$role->title|default=''}的用户组">
+                            <div class="color-view bg-default bg-font-default bold uppercase">
+                            {$role->title}
+                            </div>
+                        </a>
+                        <div class="color-info bg-white c-font-14 sbold">
+                            <a href="javascript:if(confirm('确定删除？'))location='delete/{$role->id}'">删除</a> |
+                            <a href="/project/bjyadmin/index.php/Admin/Rule/check_user/group_id/1">添加成员</a>
+                        </div>
+                    </div>
+                </div>
+                {/volist}
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+{/block}

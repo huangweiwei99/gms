@@ -1,0 +1,116 @@
+<div class="form-body">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <form class="form-horizontal" role="form" action="{:url('account/role/save')}">
+                <div class="modal-body">
+                    <div class="alert alert-danger display-hide">
+                        <button class="close" data-close="alert"></button><span>请输入正确的信息</span>
+                    </div>
+                    <div class="alert alert-success display-hide">
+                        <button class="close" data-close="alert"></button><span>验证完成</span>
+                    </div>
+                    <div class="tabbable-line">
+                        <ul class="nav nav-tabs uppercase bold">
+                            <li class="active">
+                                <a href="#default_tab_1_content" data-toggle="tab">
+                                    用户组名称
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#default_tab_2_content" data-toggle="tab">
+                                    分配权限
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="default_tab_1_content">
+                                <div class="portlet-body form">
+                                        <input type="hidden" name="__token__" value="{$Request.token}" />
+                                        <input type="hidden" name="id" value="{$role->id|default=null}">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">用户组名称</label>
+                                            <div class="col-md-9">
+                                                <div class="input-inline input-medium">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                                        <input type="text" class="form-control" name="title" placeholder="用户组名称" value="{$role.title|default=''}" >
+                                                    </div>
+                                                </div>
+                                                <span class="help-inline">例如超级管理员</span>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="default_tab_2_content">
+                                <div class="portlet-body form">
+                                    <table class="table table-striped table-bordered table-hover table-condensed">
+                                        {foreach name="auth_list" item="v"}
+                                        {empty name="v['_data']"}
+                                        <tr class="b-group">
+                                            <th width="10%">
+                                                <label>
+                                                    {$v['title']}
+                                                    <input type="checkbox" name="auth_ids[]" value="{$v['id']}" {if condition="in_array($v['id'],$role_permission)"}	checked="checked" {/if}  class="parent-check"/>
+                                                </label>
+                                            </th>
+                                            <td></td>
+                                        </tr>
+                                        {else/}
+                                        <tr class="b-group">
+                                            <th width="10%">
+                                                <label>
+                                                    {$v['title']} <input type="checkbox" name="auth_ids[]" value="{$v['id']}" {if condition="in_array($v['id'],$role_permission)"}	checked="checked"{/if} class="parent-check"/>
+                                                </label>
+                                            </th>
+                                            <td class="b-child">
+                                                {foreach name="v['_data']" item="n"}
+                                                <table class="table table-striped table-bordered table-hover table-condensed">
+                                                    <tr class="b-group">
+                                                        <th width="10%">
+                                                            <label>
+                                                                {$n['title']} <input type="checkbox" name="auth_ids[]" value="{$n['id']}" {if condition="in_array($n['id'],$role_permission)"}	checked="checked"{/if} class="parent-check"/>
+                                                            </label>
+                                                        </th>
+                                                        <td>
+                                                            {notempty name="n['_data']"}
+                                                            {volist name="n['_data']" id="c"}
+                                                            <label>
+                                                                &emsp;{$c['title']} <input type="checkbox" name="auth_ids[]" value="{$c['id']}" {if condition="in_array($c['id'],$role_permission)"}	checked="checked"{/if} class="child-check"/>
+                                                            </label>
+                                                            {/volist}
+                                                            {/notempty}
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                {/foreach}
+                                            </td>
+                                        </tr>
+                                        {/empty}
+                                        {/foreach}
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="submitbutton" class="btn blue btn-sm btn-outline">
+                        <i class="fa fa-check"></i><span class="hidden-480">提交</span>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline red" id="cancel" data-dismiss="modal">
+                        <i class="fa fa-share"></i><span class="hidden-480">撤销</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        Role.init();
+    })
+</script>

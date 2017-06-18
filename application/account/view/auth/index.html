@@ -1,0 +1,60 @@
+{extend name="common@/base" /}
+{block name="pagePluinsJS"}
+<script src="__STATIC__/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+<script src="__STATIC__/assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
+{/block}
+{block name="pageLevelJS"}
+<script src="__STATIC__/assets/global/scripts/modal-form.js" type="text/javascript"></script>
+<script src="__STATIC__/assets/pages/scripts/account/auth.js" type="text/javascript"></script>
+{/block}
+
+{block name="content"}
+<div class="row">
+	<div class="col-lg-12 col-xs-12 col-sm-12">
+	<div class="portlet light portlet-fit bordered">
+		<div class="portlet-title">
+			<div class="caption">
+				<i class="fa fa-bell-o"></i>
+				权限管理
+			</div>
+			<div class="tools">
+				<div class="btn-group pull-right">
+					<a class="btn btn-outline btn-sm green" href="create" data-modal title="添加权限">
+						<i class="fa fa-plus"></i>
+						<span class="hidden-480"> 添加权限</span>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="portlet-body">
+			<div class="table-scrollable">
+				<table class="table table-condensed table-hover" style="padding-right:8px">
+					<thead>
+					<tr>
+						<th>权限名运行信息</th>
+						<th>权限</th>
+						<th>说明</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					{foreach name="data" item="v"}
+					<tr>
+						<td>{$v->_name}</td>
+						<td>{$v->name}</td>
+						<td>{$v->title_explain}</td>
+						<td>
+							<a href="create/pid/{$v->id}" data-modal title="添加子权限">添加子权限</a> |
+							<a href="{$v->id}"  data-modal  title="修改权限">修改</a> |
+							<a href="javascript:if(confirm('确定删除？'))location='delete/{$v->id}'">删除</a>
+						</td>
+					</tr>
+					{/foreach}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	</div>
+</div>
+{/block}

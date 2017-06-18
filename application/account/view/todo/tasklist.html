@@ -1,0 +1,17 @@
+<ul class="todo-tasks-content">
+    {volist name="task" id="task"}
+    <li class="todo-tasks-item">
+        <h4 class="todo-inline">
+            <a href="./readtask/{$task->id}" id="task-modal">{$task->title}</a>
+        </h4>
+        <p class="todo-inline todo-float-r">
+            {volist name="selected_staffs" id="profile"}
+                {eq name="$profile->id" value="$task->profile_id"}
+                    {$profile->full_name}
+                {/eq}
+            {/volist},
+            <span class="todo-red">{$task->duetime}</span>
+        </p>
+    </li>
+    {/volist}
+</ul>

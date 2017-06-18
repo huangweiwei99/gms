@@ -1,0 +1,66 @@
+{extend name="common@/base" /}
+{block name="pageLevelPluinsCSS"}
+<link href="__STATIC__/assets/apps/css/todo.min.css" rel="stylesheet" type="text/css" />
+{/block}
+{block name="pagePluinsJS"}
+<script src="__STATIC__/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+<script src="__STATIC__/assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
+<script src="__STATIC__/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
+<script src="__STATIC__/assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
+<script src="__STATIC__/assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js" type="text/javascript"></script>
+{/block}
+{block name="pageLevelJS"}
+<script src="__STATIC__/assets/pages/scripts/components-date-time-pickers.min.js" type="text/javascript"></script>
+<script src="__STATIC__/assets/global/scripts/modal-form.js" type="text/javascript"></script>
+<script src="__STATIC__/assets/pages/scripts/account/todo.js" type="text/javascript"></script>
+{/block}
+{block name="content"}
+<div class="row">
+    <div class="col-lg-12 col-xs-12 col-sm-12">
+        <div class="todo-container">
+            <div class="row">
+                <div class="col-md-5">
+                    <ul class="todo-projects-container">
+                        <li class="todo-padding-b-0">
+                            <div class="todo-head">
+                                <span class="pull-right"><a class="btn btn-square btn-sm green todo-bold"  href="create" data-modal title="添加新项目">添加项目</a></span>
+                                <h3>项目</h3>
+                                <p>4 个等待注意</p>
+                            </div>
+                        </li>
+                        {volist name="projects" id="project"}
+                        <li class="todo-projects-item">
+                            <span hidden-value="{$project->id}"></span>
+                            <h3>{$project->title}</h3>
+                            <p>{$project->content}</p>
+                            <div class="todo-project-item-foot">
+                                <p class="todo-red todo-inline">17 个任务待续</p>
+                                <p class="todo-inline todo-float-r">{:count($project->profiles()->select())} 个成员
+                                    <a class="todo-add-button" href="selectstaff/{$project->id}" data-modal title="选择一个成员">+</a>
+                                </p>
+                            </div>
+                        </li>
+                        <div class="todo-projects-divider"></div>
+                        {/volist}
+                    </ul>
+                </div>
+                <div class="col-md-7">
+                    <div class="todo-tasks-container">
+                        <div class="todo-head">
+                            <span class="pull-right"><a class="btn btn-square btn-sm red todo-bold" id="task"  data-modal title="新任务">新任务</a></span>
+                            <h3><span class="todo-grey">任务:</span> <span class="project-title"></span></h3>
+                            <p class="todo-inline"></p>
+                        </div>
+                        <div class="todo-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="todo-task-modal" class="modal fade" role="dialog" aria-labelledby="myModalLabel10" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content scroller" style="height: 100%;" data-always-visible="1" data-rail-visible="0"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

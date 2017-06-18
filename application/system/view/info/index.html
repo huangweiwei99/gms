@@ -1,0 +1,148 @@
+{extend name="common@/base" /}
+{block name="content"}
+<div class="row">
+    <div class="col-lg-6 col-xs-12 col-sm-6">
+    <!-- BEGIN PORTLET-->
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="icon-bar-chart font-dark hide"></i>
+                <span class="caption-subject font-dark bold uppercase">我的个人信息</span>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <p>你好，<b>{$Think.session.user['username']|default='没有登录'}</b></p>
+            <p><b>你的的权限是:</b>超级管理员</p>
+            <p><b>最后登录时间是:</b>2017-01-01</p>
+            <p><b>登录IP:</b>127.0.0.1</p>
+        </div>
+    </div>
+    <!-- END PORTLET-->
+</div>
+    <div class="col-lg-6 col-xs-12 col-sm-6">
+        <!-- BEGIN PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-share font-red-sunglo hide"></i>
+                    <span class="caption-subject font-dark bold uppercase">当前用户</span>
+
+                </div>
+
+            </div>
+            <div class="portlet-body">
+                <p>[admin]</p>
+                <p>[春天的燕子]</p>
+                <p>[Jack Ma]</p>
+                <p>[张无忌]</p>
+
+            </div>
+        </div>
+        <!-- END PORTLET-->
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 col-xs-12 col-sm-6">
+        <!-- BEGIN PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-bar-chart font-dark hide"></i>
+                    <span class="caption-subject font-dark bold uppercase">服务器参数</span>
+
+                </div>
+
+            </div>
+            <div class="portlet-body">
+                <p><b>服务器域名/IP地址:</b>{$_SERVER['SERVER_NAME']}({if condition="DIRECTORY_SEPARATOR eq '/'"}<{$_SERVER['SERVER_ADDR']}>{else/}<{:@gethostbyname($_SERVER['SERVER_NAME'])}>{/if})</p>
+                <p><b>服务器标识：</b>{if condition="$sysinfo['win_n'] neq ''"}{:var_export($sysinfo['win_n'], true)}{else/}{:var_export(@php_uname(), true)}{/if}</p>
+                <p><b>服务器操作系统：</b>{:var_export($os[0] . '&nbsp;内核版本：' . (DIRECTORY_SEPARATOR == '/' ? $os[2] : $os[1]) , true)}</p>
+                <p><b>服务器解释引擎：</b>{:var_export($_SERVER['SERVER_SOFTWARE'], true)}</p>
+                <p><b>服务器语言：</b>{:var_export(getenv('HTTP_ACCEPT_LANGUAGE'), true)}</p>
+                <p><b>服务器端口：</b>{$_SERVER['SERVER_PORT']}</p>
+                <p><b>服务器主机名：</b>{:var_export(DIRECTORY_SEPARATOR == '/' ? $os[1] : $os[2] , true)}</p>
+                <p><b>管理员邮箱：</b>{$_SERVER['SERVER_ADMIN']}</p>
+                <p><b>PHP信息：</b>PHPINFO</p>
+                <p><b>绝对路径：</b></p>
+                <p><b>上传文件最大限制(upload_max_filesize)：</b>{:get_cfg_var('upload_max_filesize')}</p>
+            </div>
+        </div>
+        <!-- END PORTLET-->
+    </div>
+    <div class="col-lg-6 col-xs-12 col-sm-6">
+        <!-- BEGIN PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-share font-red-sunglo hide"></i>
+                    <span class="caption-subject font-dark bold uppercase">服务器实时数据 </span>
+
+                </div>
+
+            </div>
+            <div class="portlet-body">
+                <p><b>服务器当前时间：</b>{$sysinfo.stime}</p>
+                <p><b>服务器已运行时间：</b>{$sysinfo.uptime}</p>
+                <p><b>总空间：</b>{$sysinfo.DiskTotal}     <b>可用空间：</b>{$sysinfo.freeSpace}</p>
+                <p><b>CPU型号</b>CPU型号 [<{$sysinfo.cpu.num}>核]：<{$sysinfo.cpu.model}> </p>
+                <p><b>内存使用状况：物理内存：共<{$sysinfo.TotalMemory}>，已用：<{$sysinfo.UsedMemory}>，空闲：{$sysinfo.FreeMemory}</b>使用率<span><{$sysinfo.memPercent}></span> </p>
+                <div class="bar"><div class="barli_green" style="width:<{$sysinfo.memPercent}>">&nbsp;</div> </div>
+                {if condition="$sysinfo['CachedMemory'] gt 0"}
+                Cache化内存为 <span><{$sysinfo.CachedMemory}></span>, 使用率<span><{$sysinfo.memCachedPercent}></span> %	| Buffers缓冲为  <span><{$sysinfo.Buffers}></span>
+                <div class="bar"><div class="barli_blue" style="width:<{$sysinfo.barmemCachedPercent}>">&nbsp;</div></div>
+                真实内存使用 <span><{$sysinfo.memRealUsed}></span>, 真实内存空闲<span><{$sysinfo.memRealFree}></span>, 使用率<span><{$sysinfo.memRealPercent}></span> %
+                <div class="bar_1"><div class="barli_1" style="width:<{$sysinfo.barmemRealPercent}>">&nbsp;</div></div>
+                {/if}
+                {if condition="$sysinfo['TotalSwap'] gt 0"}
+                SWAP区：共<{$sysinfo.TotalSwap}>, 已使用<span><{$sysinfo.swapUsed}></span>, 空闲<span><{$sysinfo.swapFree}></span>, 使用率<span><{$sysinfo.swapPercent}></span> %
+                <div class="bar"><div class="barli_red" style="width:<{$sysinfo.barswapPercent}>">&nbsp;</div> </div>
+                {/if}
+                系统平均负载：<span><{$sysinfo.loadAvg}></span>
+
+            </div>
+        </div>
+        <!-- END PORTLET-->
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 col-xs-12 col-sm-6">
+        <!-- BEGIN PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-bar-chart font-dark hide"></i>
+                    <span class="caption-subject font-dark bold uppercase">网络使用状况</span>
+
+                </div>
+
+            </div>
+            <div class="portlet-body">
+
+                <p><b><{$net_state}></b></p>
+            </div>
+        </div>
+        <!-- END PORTLET-->
+    </div>
+    <div class="col-lg-6 col-xs-12 col-sm-6">
+        <!-- BEGIN PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-share font-red-sunglo hide"></i>
+                    <span class="caption-subject font-dark bold uppercase">系统说明 </span>
+
+                </div>
+
+            </div>
+            <div class="portlet-body">
+                <p><b></b></p>
+            </div>
+        </div>
+        <!-- END PORTLET-->
+    </div>
+</div>
+{/block}
+
+
+                
+                         

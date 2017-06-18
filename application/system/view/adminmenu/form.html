@@ -1,0 +1,73 @@
+<div class="form-body">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">添加菜单</h4>
+            </div>
+            <form class="form-horizontal" role="form" action="{:url('system/adminmenu/save')}">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="hidden" name="__token__" value="{$Request.token}" />
+                        <input type="hidden" name="pid" value="{$menu->pid|default=0}" />
+                        <input type="hidden" name="id" value="{$menu->id|default=null}" />
+                        <label class="col-md-3 control-label"> 菜单名/别名：</label>
+                        <div class="col-md-9">
+                            <div class="input-inline input-medium">
+                                <div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    <input type="text" class="form-control" placeholder="菜单名/别名"  name="name" value="{$menu->name|default=''}"/>
+                                </div>
+                            </div>
+                            <span class="help-inline">  默认系统权限名，可以不填写	</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="single" class="col-md-3 control-label">连接：</label>
+                        <div class="col-md-9">
+                            <div class="input-inline input-medium">
+                                <select id="single" class="form-control select2"  name="mca">
+                                    <option value="" >主题，可以不填</option>
+                                    {volist name="auth_list" id="auth"}
+                                    <option value="{$auth->name}"   {if condition="$auth->name===$menu->mca"} selected {/if} >{$auth->title} | {$auth->name}</option>
+                                    <!--{if condition="count(explode('/',$auth->name))!=3"} disabled="disabled" {/if}-->
+                                    {/volist}
+                                </select>
+                            </div>
+                            <span class="help-inline">输入模块/控制器/方法即可 例如 Admin/Nav/index</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">图标：</label>
+                        <div class="col-md-9">
+                            <div class="input-inline input-medium">
+                                <div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    <input type="text" class="form-control" placeholder="font-awesome图标" name="ico" value="{$menu->ico|default=''}"/>
+                                </div>
+                            </div>
+                            <span class="help-inline">
+                            font-awesome图标 输入fa fa- 后边的即可</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="submitbutton" class="btn blue btn-sm btn-outline">
+                        <i class="fa fa-check"> </i>
+                        <span class="hidden-480">提交</span>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline red" id="cancel" data-dismiss="modal">
+                        <i class="fa fa-share"></i>
+                        <span class="hidden-480">撤销</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        AdminMenu.init();
+    })
+</script>
