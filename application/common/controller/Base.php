@@ -19,6 +19,10 @@ class Base extends Controller
     {
 
     }
+    
+    public function function_name($param) {
+        ;
+    }
 
 //    public function __construct(Request $request)
 //    {
