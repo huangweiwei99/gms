@@ -12,6 +12,7 @@ class User extends AdminController
 
     public function index()
     {
+        $this->accountService()->getUser();
         $users=UserModel::all();
 
         $assign=array(

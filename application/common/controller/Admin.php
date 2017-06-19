@@ -2,6 +2,7 @@
 
 namespace app\common\controller;
 
+use app\common\service\AccountService;
 use app\system\model\Settings;
 use think\Request;
 use think\Session;
@@ -85,7 +86,6 @@ class Admin extends Base
         $this->assign($assign);
     }
 
-    //文件上传验证用到了 exif 扩展，如果没有开启请自行开启
     public function upload(Request $request,$path=null)
     {
         // 获取表单上传文件
@@ -105,7 +105,6 @@ class Admin extends Base
         }
     }
 
-    // 图片上传处理
     public function picture(Request $request)
     {
         // 获取表单上传文件
@@ -165,6 +164,9 @@ class Admin extends Base
             $this->error($file->getError());
         }
     }
-
+    
+    public function accountService($param=null) {
+       return new AccountService();
+    }
 }
 
