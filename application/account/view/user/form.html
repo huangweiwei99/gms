@@ -23,7 +23,7 @@
                             <div class="input-inline input-medium">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                    <input type="text" class="form-control " name="username" value="{$user.username|default=''}" placeholder="用户名">
+                                    <input type="text" class="form-control " name="username" value="{$user->username|default=''}" placeholder="用户名">
                                 </div>
                             </div>
                             <span class="help-inline">系统操作的用户ID，唯一性的，不修改</span>
@@ -35,7 +35,7 @@
                             <div class="input-inline input-medium">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-mobile"></i></span>
-                                    <input type="text" class="form-control" name="phone" placeholder="手机号" value="{$user.phone|default=''}">
+                                    <input type="text" class="form-control" name="phone" placeholder="手机号" value="{$user->phone|default=''}">
                                 </div>
                             </div>
                             <span class="help-inline">11位手机号码，用于接收系统的验证码</span>
@@ -47,7 +47,7 @@
                             <div class="input-inline input-medium">
                                 <div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                    <input type="text" class="form-control" name="email" placeholder="邮箱"  value="{$user.email|default=''}">
+                                    <input type="text" class="form-control" name="email" placeholder="邮箱"  value="{$user->email|default=''}">
                                 </div>
                             </div>
                             <span class="help-inline">电子邮箱，例如hi@you.com，由于接收系统信息</span>

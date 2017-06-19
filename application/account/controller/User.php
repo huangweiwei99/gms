@@ -12,29 +12,16 @@ class User extends AdminController
 
     public function index()
     {
-        $this->accountService()->getUser();
-        $users=UserModel::all();
-
         $assign=array(
-            'users'=>$users
+            'users'=>$this->accountService()->getUsers()
         );
         return view()->assign($assign);
     }
 
     public function create()
     {
-
-        $roles=RoleModel::all();
-        $assign=array('roles'=>$roles);
+        $assign=array('roles'=>$this->accountService()->getRoles());
         return view('form')->assign($assign);
-        /*
-         * $assign=array(
-         * 'roles'=>$roles,
-         *
-         * );
-         * $this->assign($assign);
-         * $this->display();
-         */
     }
 
     public function save(Request $request)
@@ -73,16 +60,15 @@ class User extends AdminController
 
     public function read($id)
     {
-        $user = UserModel::get($id);
-        $roles=RoleModel::all();
-        $selected_roles=model('Access')->where(array(
-            'user_id' => $id
-        ))->column('role_id');
-
+        $user = $this->accountService()->getUserById($id);
+        $roles=$this->accountService()->getRoles();
+        $selected_roles=$user->selectRolesIdArray();
+        
         $assign=array('user'=>$user,
             'roles'=>$roles,
             'selected_roles'=>$selected_roles
             );
+        
         return view('form')->assign($assign);
     }
 

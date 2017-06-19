@@ -8,9 +8,9 @@ use Exception;
 class User extends AccountBaseModel
 {
 
-    public  $createTime  = 'register_time';
+    public $createTime  = 'register_time';
 
-    public  $type = [
+    public $type = [
         'register_time' => 'timestamp:Y/m/d H:i:s',
         'update_time'=> 'timestamp:Y/m/d H:i:s',
         'last_login_time' => 'timestamp:Y/m/d H:i:s',
@@ -21,20 +21,29 @@ class User extends AccountBaseModel
         return $this->belongsToMany('Role', '\\app\\account\\model\\Access');
     }
 
+    public function selectRolesIdArray()
+    {
+        $array=array();
+        foreach ($this->roles()->select() as $role){
+            array_push($array,$role->id);
+        }
+        return $array;
+    }
+    
     public function profile()
     {
         return $this->hasOne('\\app\\account\\model\\Profile');
     }
 
-    protected  function setPasswordAttr($value, $data)
-   {
+    protected function setPasswordAttr($value, $data)
+    {
        if(empty($value)){
            unset($data['password']);
            return $data;
        }else{
            return md5($value);
        }
-   }
+    }
 
     public function addData($data)
     {
@@ -75,7 +84,12 @@ class User extends AccountBaseModel
         }
         $result = $this->where($map)->delete();
         if($result){
-            model('Access')->deleteData(array('user_id'=>$this->id));//删除原有权限
+            $role_ids=array();
+            foreach ($this->roles()->select() as $role){
+                array_push($role_ids,$role->id);
+            }
+            $this->roles()->detach(array_values($role_ids));
+           // model('Access')->deleteData(array('user_id'=>$this->id));//删除原有权限
         }
         return $result;
     }
