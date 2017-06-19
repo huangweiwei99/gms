@@ -4,6 +4,7 @@ namespace app\common\service;
 use app\common\service\BaseService;
 use app\account\model\User as UserModel;
 use app\account\model\Role as RoleModel;
+use think\Request;
 
 class AccountService extends BaseService
 {
@@ -31,7 +32,17 @@ class AccountService extends BaseService
     
     public function saveUser($param)
     {
-        
+        if($param['id']!=0){
+            $user=$this->getUserById($param['id']);
+            $result=$user->allowField(true)->validate('User.edit')->editData(['id'=>$param['id']], $param);
+            return $user->getMessage($result);
+        }else{
+            $user = new UserModel();
+            $request = Request::instance();
+            $param["last_login_ip"] = $request->ip();
+            $result=$user->allowField(true)->validate(true)->addData($param);
+            return $user->getMessage($result);
+        }
     }
     
     public function saveUsers($param)
@@ -41,11 +52,9 @@ class AccountService extends BaseService
     
     public function deleteUser($param=array()) 
     {
-        $map = array(
-            'id' => $id
-        );
-        $user=$this->getUserById($id);
-        $result = $user->deleteData($map);
+        $user=$this->getUserById($param['id']);
+        $result = $user->deleteData($param);
+        return $result;
     }
     
     public function deleteUsers($param) 

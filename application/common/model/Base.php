@@ -61,6 +61,15 @@ class Base extends Model
     {
         return $this->modelMessge . $this->getError();
     }
+    
+    public function getMessage($result)
+    {
+       if ($result!==false) {
+           return array('flag'=>true,'message'=>'操作成功','level'=>'success');
+       }else{
+           return array('flag'=>false,'message'=>$this->getErrors(),'level'=>'error');
+       }
+    }
 
     /**
      * 添加数据

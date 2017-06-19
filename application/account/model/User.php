@@ -21,7 +21,7 @@ class User extends AccountBaseModel
         return $this->belongsToMany('Role', '\\app\\account\\model\\Access');
     }
 
-    public function selectRolesIdArray()
+    public function userInRolesIdArray()
     {
         $array=array();
         foreach ($this->roles()->select() as $role){
@@ -29,6 +29,7 @@ class User extends AccountBaseModel
         }
         return $array;
     }
+    
     
     public function profile()
     {
@@ -45,16 +46,28 @@ class User extends AccountBaseModel
        }
     }
 
+    protected function setLastLoginIpAttr($value, $data)
+    {
+        
+    }
+    
     public function addData($data)
     {
         $this->trimData($data);
         if (!empty($data['password'])) {
             $data['password']=md5($data['password']);
         }
-        $result = $this->save($data);
-        if(isset($data['role_ids'])&$result){
-            $this->roles()->saveAll($data['role_ids']);
+       
+        try {
+            $result = $this->save($data);
+            if(isset($data['role_ids'])&$result!==false){
+                $this->roles()->saveAll($data['role_ids']);
+            }
+        } catch (Exception $e) {
+            $this->modelMessge = $e->getMessage();
+            return false;
         }
+        
         return $result;
     }
 
@@ -83,13 +96,8 @@ class User extends AccountBaseModel
             die('where为空的危险操作');
         }
         $result = $this->where($map)->delete();
-        if($result){
-            $role_ids=array();
-            foreach ($this->roles()->select() as $role){
-                array_push($role_ids,$role->id);
-            }
-            $this->roles()->detach(array_values($role_ids));
-           // model('Access')->deleteData(array('user_id'=>$this->id));//删除原有权限
+        if($result!==false){
+            $this->roles()->detach(array_values($this->userInRolesIdArray()));
         }
         return $result;
     }
