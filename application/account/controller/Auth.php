@@ -4,16 +4,15 @@ namespace app\account\controller;
 use app\common\controller\Admin as AdminController;
 use app\account\model\Auth as AuthModel;
 use think\Request;
-use think\Db;
+
 
 class Auth extends AdminController
 {
 
     public function index()
     {
-        $data=model('Auth')->getTreeData('tree','id','title');
         $assign=array(
-            'data'=>$data
+            'data'=>$this->accountService()->getAuthTree()
         );
         return view()->assign($assign);
     }
@@ -25,59 +24,30 @@ class Auth extends AdminController
             $auth->pid=$pid;
             $assign=array('auth'=>$auth);
             return view('form')->assign($assign);
-        }else{
-            return view('form');
         }
+            return view('form');
+        
     }
 
     public function read($id)
     {
-        $auth=AuthModel::get($id);
-        $assign=array('auth'=>$auth);
+        $assign=array('auth'=>$this->accountService()->getAuthById($id));
         return view('form')->assign($assign);
     }
 
     public function save(Request $request)
     {
         $data = $request->param();
-        $id=$data['id'];
-        if($id!=0){
-            $auth = AuthModel::get($id);
-            $map = array(
-                'id' => $id
-            );
-            if ($auth->allowField(true)->validate(true)->editData($map, $data)) {
-                $array=array('flag'=>true,'message'=>'修改成功','level'=>'success');
-                return json($array);
-            } else {
-                $array=array('flag'=>false,'message'=>$auth->getErrors(),'level'=>'error');
-                return json($array);
-            }
-        } else{
-            $auth=new AuthModel();
-            if ($auth->allowField(true)->validate(true)->addData($data)) {
-                $array=array('flag'=>true,'message'=>'添加成功','level'=>'success');
-                return json($array);
-            }else{
-                $array=array('flag'=>false,'message'=>$auth->getErrors(),'level'=>'error');
-                return json($array);
-            }
-        }
-
+        $result=$this->accountService()->saveAuth($data);
+        return json($result);
     }
+    
 
     public function delete($id)
     {
-        $map=array(
-            'id'=>$id
-        );
-        $auth=new AuthModel();
-        if($auth->deleteData($map)){
-            $this->redirect('index');
-        }else{
-            $array=array('flag'=>false,'message'=>$auth->getErrors(),'level'=>'error');
-            return json($array);
-        }
+        
+        $this->accountService()->deleteAuth(['id'=>$id]);
+        $this->redirect('index');
     }
 
     public function data()

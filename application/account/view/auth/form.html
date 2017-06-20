@@ -20,7 +20,7 @@
                         <div class="input-inline input-medium">
                             <div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                <input type="text" class="form-control " name="title" value="{$auth.title|default=''}" placeholder="权限名">
+                                <input type="text" class="form-control " name="title" value="{$auth->title|default=''}" placeholder="权限名">
                             </div>
                         </div>
                         <span class="help-inline"> 权限的中文名称,例如"系统设置"</span>
@@ -32,9 +32,9 @@
                         <div class="input-inline input-medium">
                             <div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                <input type="text" class="form-control" name="name" placeholder="URL" value="{$auth.name|default=''}">
+                                <input type="text" class="form-control" name="name" placeholder="URL" value="{$auth->name|default=''}">
                             </div>
-                        </di
+                        </div>
                         <span class="help-inline">输入模块/控制器/方法即可 例如 System/Info/Index</span>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                         <div class="input-inline input-medium">
                             <div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                <textarea  class="form-control" name="title_explain" placeholder="权限说明" value="{$auth.title_explain|default=''}"></textarea>
+                                <textarea  class="form-control" name="title_explain" placeholder="权限说明" value="{$auth->title_explain|default=''}"></textarea>
                             </div>
                         </div>
                         <span class="help-inline">显示在导航栏的详细信息，例如系统日志，服务器状态</span>

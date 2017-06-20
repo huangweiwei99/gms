@@ -161,8 +161,9 @@ class AccountService extends BaseService
     
     ////////////////////////Auth////////////////////////
     
-    public function getAuthById($param) {
-        ;
+    public function getAuthById($id) {
+        $auth=AuthModel::get($id);
+        return $auth;
     }
     
    
@@ -170,26 +171,51 @@ class AccountService extends BaseService
         ;
     }
     
-    public function getAuthList($param) {
-        ;
+    public function getAuthList($param=null)
+    {
+        if(isset($param)){
+            //todo
+        }else{
+            $authlist=AuthModel::all();
+            return $authlist;
+        }
     }
     
-    public function getAuthTree()
+    public function getAuthLevel()
     {
         $auth=new AuthModel();
         return $auth->getTreeData('level','id','title');
     }
     
+    public function getAuthTree()
+    {
+        $auth=new AuthModel();
+        return $auth->getTreeData('tree','id','title');
+    }
+    
     public function saveAuth($param) {
-        ;
+        if($param['id']){
+            $auth=$this->getAuthById($param['id']);
+            $result=$auth->allowField(true)->validate(true)->editData(['id'=>$param['id']], $param);
+            return $auth->getMessage($result);
+        }else{
+            $auth=new AuthModel();
+            $result=$auth->allowField(true)->validate(true)->addData($param);
+            return $auth->getMessage($result);
+        }
     }
     
     public function saveAuthList($param) {
         ;
     }
     
-    public function deleteAuth($param) {
-        ;
+    public function deleteAuth($param=array()) {
+        $auth=$this->getAuthById($param['id']);
+        if($auth!=null){
+            $result = $auth->deleteData($param);
+            return $result;
+        }
+        return false;
     }
     
     public function deleteAuthList($param) {
