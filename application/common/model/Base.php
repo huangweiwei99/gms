@@ -80,6 +80,7 @@ class Base extends Model
     {
         // 去除键值首尾的空格
         $this->trimData($data);
+        
         try { //捕获保存期间的错误
             $result = $this->save($data);
             return $result;
@@ -108,7 +109,6 @@ class Base extends Model
 
         try{
             $result = $this->save($data,$map);
-
             return $result;
         }catch  (Exception $e) {
             $this->modelMessge = $e->getMessage();

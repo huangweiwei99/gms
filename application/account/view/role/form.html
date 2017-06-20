@@ -54,7 +54,7 @@
                                             <th width="10%">
                                                 <label>
                                                     {$v['title']}
-                                                    <input type="checkbox" name="auth_ids[]" value="{$v['id']}" {if condition="in_array($v['id'],$role_permission)"}	checked="checked" {/if}  class="parent-check"/>
+                                                    <input type="checkbox" name="permission[]" value="{$v['id']}" {if condition="in_array($v['id'],$role_permission)"}	checked="checked" {/if}  class="parent-check"/>
                                                 </label>
                                             </th>
                                             <td></td>
@@ -63,7 +63,7 @@
                                         <tr class="b-group">
                                             <th width="10%">
                                                 <label>
-                                                    {$v['title']} <input type="checkbox" name="auth_ids[]" value="{$v['id']}" {if condition="in_array($v['id'],$role_permission)"}	checked="checked"{/if} class="parent-check"/>
+                                                    {$v['title']} <input type="checkbox" name="permission[]" value="{$v['id']}" {if condition="in_array($v['id'],$role_permission)"}	checked="checked"{/if} class="parent-check"/>
                                                 </label>
                                             </th>
                                             <td class="b-child">
@@ -72,14 +72,14 @@
                                                     <tr class="b-group">
                                                         <th width="10%">
                                                             <label>
-                                                                {$n['title']} <input type="checkbox" name="auth_ids[]" value="{$n['id']}" {if condition="in_array($n['id'],$role_permission)"}	checked="checked"{/if} class="parent-check"/>
+                                                                {$n['title']} <input type="checkbox" name="permission[]" value="{$n['id']}" {if condition="in_array($n['id'],$role_permission)"}	checked="checked"{/if} class="parent-check"/>
                                                             </label>
                                                         </th>
                                                         <td>
                                                             {notempty name="n['_data']"}
                                                             {volist name="n['_data']" id="c"}
                                                             <label>
-                                                                &emsp;{$c['title']} <input type="checkbox" name="auth_ids[]" value="{$c['id']}" {if condition="in_array($c['id'],$role_permission)"}	checked="checked"{/if} class="child-check"/>
+                                                                &emsp;{$c['title']} <input type="checkbox" name="permission[]" value="{$c['id']}" {if condition="in_array($c['id'],$role_permission)"}	checked="checked"{/if} class="child-check"/>
                                                             </label>
                                                             {/volist}
                                                             {/notempty}

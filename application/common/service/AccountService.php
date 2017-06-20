@@ -4,6 +4,7 @@ namespace app\common\service;
 use app\common\service\BaseService;
 use app\account\model\User as UserModel;
 use app\account\model\Role as RoleModel;
+use app\account\model\Auth as AuthModel;
 use think\Request;
 
 class AccountService extends BaseService
@@ -23,7 +24,7 @@ class AccountService extends BaseService
     
     public function getUsers($param=null) {
         if(isset($param)){
-            
+            //todo
         }else{
             $users=UserModel::all();
         }
@@ -47,19 +48,25 @@ class AccountService extends BaseService
     
     public function saveUsers($param)
     {
-        ;
+        ;//todo
     }
     
     public function deleteUser($param=array()) 
     {
         $user=$this->getUserById($param['id']);
-        $result = $user->deleteData($param);
-        return $result;
+        if($user!=null){
+            $result = $user->deleteData($param);
+            return $result;
+        }
+        return false;
+        
     }
     
     public function deleteUsers($param) 
     {
-        ;
+        $ids=array_values($param);
+        $result=UserModel::destroy($ids);
+        return $result;
     }
     
     public function getUserWithRoles($param=null){
@@ -101,8 +108,10 @@ class AccountService extends BaseService
     
     ////////////////////////Role////////////////////////
     
-    public function getRoleById($param) {
-        ;
+    public function getRoleById($id)
+    {
+        $role=RoleModel::get($id);
+        return $role;
     }
     
     public function getRole($param) {
@@ -111,23 +120,39 @@ class AccountService extends BaseService
     
     public function getRoles($param=null) {
         if(isset($param)){
-            
+           //todo
         }else{
             $roles=RoleModel::all();
         }
         return $roles;
     }
     
-    public function saveRole($param) {
-        ;
+    public function saveRole($param) 
+    {
+        $param['permission']=isset($param['permission'])?$param['permission']:'';
+        if($param['id']){
+            $role=$this->getRoleById($param['id']);
+            $result=$role->allowField(true)->validate(true)->editData(['id'=>$param['id']], $param);
+            return $role->getMessage($result);
+        }else{
+            $role=new RoleModel();
+            $result=$role->allowField(true)->validate(true)->addData($param);
+            return $role->getMessage($result);
+        }
     }
     
     public function saveRoles($param) {
         ;
     }
     
-    public function deleteRole($param) {
-        ;
+    public function deleteRole($param=array()) 
+    {
+        $role=$this->getRoleById($param['id']);
+        if($role!=null){
+            $result = $role->deleteData($param);
+            return $result;
+        }
+        return false;
     }
     
     public function deleteRoles($param) {
@@ -147,6 +172,12 @@ class AccountService extends BaseService
     
     public function getAuthList($param) {
         ;
+    }
+    
+    public function getAuthTree()
+    {
+        $auth=new AuthModel();
+        return $auth->getTreeData('level','id','title');
     }
     
     public function saveAuth($param) {
