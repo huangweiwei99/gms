@@ -5,6 +5,9 @@ use app\common\service\BaseService;
 use app\account\model\User as UserModel;
 use app\account\model\Role as RoleModel;
 use app\account\model\Auth as AuthModel;
+use app\account\model\Profile as ProfileModel;
+use app\account\model\Project as ProjectModel;
+use app\account\model\Task as TaskModel;
 use think\Request;
 
 class AccountService extends BaseService
@@ -17,8 +20,12 @@ class AccountService extends BaseService
         return $user;
     }
     
-    public function getUser($param)
+    public function getUser($param=array())
     {
+        if(isset($param)){
+            $user=UserModel::get($param);
+            return $user;
+        }
         //todo
     }
     
@@ -31,11 +38,11 @@ class AccountService extends BaseService
         return $users;
     }
     
-    public function saveUser($param)
+    public function saveUser($param=array(),$scene='User.edit')
     {
         if($param['id']!=0){
             $user=$this->getUserById($param['id']);
-            $result=$user->allowField(true)->validate('User.edit')->editData(['id'=>$param['id']], $param);
+            $result=$user->allowField(true)->validate($scene)->editData(['id'=>$param['id']], $param);
             return $user->getMessage($result);
         }else{
             $user = new UserModel();
@@ -78,20 +85,47 @@ class AccountService extends BaseService
     
     ////////////////////////profile////////////////////////
     
-    public function getProfileById($param) {
-        ;
+    public function getProfileById($id) {
+        $profile=new ProfileModel();
+        return $profile;
     }
     
     public function getProfile($param) {
-        ;
+        ;//todo
     }
     
-    public function getProfiles($param) {
-        ;
+    public function getProfiles($param=null) {
+        if(isset($param)){
+            //todo
+        }else{
+            $profiles=ProfileModel::all();
+        }
+        return $profiles;
     }
     
     public function saveProfile($param) {
-        ;
+        $user=$this->getUserById($param['user_id']);
+        $profile=new ProfileModel();
+        if(empty($user->profile()->select())){
+            $result=$profile->allowField(true)->validate(true)->addData($param);
+            return $profile->getMessage($result);
+        }else{
+            $id=$user->profile->id;
+            
+            if(empty($param['new_password'])){
+                $result=$profile->allowField(true)->validate(true)->editData(['id'=>$id], $param);
+                return $profile->getMessage($result);
+            }else{
+                
+                $user=$this->getUser(['password'=>md5($param['current_password']),'id'=>$param['user_id']]);
+                if($user){
+                    $result=$this->saveUser(array('id'=>$param['user_id'],'password'=>$param['new_password']),'User.updatepw');
+                    return $user->getMessage($result);
+                }else{
+                    return array('flag'=>false,'message'=>'请先填入当前正确的密码再修改','level'=>'error');
+                }
+            }
+        }
     }
     
     public function saveProfiles($param) {
@@ -224,20 +258,35 @@ class AccountService extends BaseService
     
     ////////////////////////Project////////////////////////
     
-    public function getProjectById($param) {
-        ;
+    public function getProjectById($id) {
+        $project=ProjectModel::get($id);
+        return $project;
     }
     
     public function getProject($param) {
         ;
     }
     
-    public function getProjects($param) {
-        ;
+    public function getProjects($param=null) {
+        if(isset($param)){
+            
+        }else{
+            $projects=ProjectModel::all();
+        }
+        return $projects;
     }
     
-    public function saveProject($param) {
-        ;
+    public function saveProject($param) 
+    {
+        if($param['id']){
+            $project=$this->getProjectById($param['id']);
+            $result=$project->allowField(true)->validate(true)->editData(['id'=>$param['id']], $param);
+            return $project->getMessage($result);
+        }else{
+            $project=new ProjectModel();
+            $result=$project->allowField(true)->validate(true)->addData($param);
+            return $project->getMessage($result);
+        }
     }
     
     public function saveProjects($param) {
@@ -254,8 +303,9 @@ class AccountService extends BaseService
     
     ////////////////////////Task////////////////////////
     
-    public function getTaskById($param) {
-        ;
+    public function getTaskById($id) {
+        $task=TaskModel::get($id);
+        return $task;
     }
     
     public function getTask($param) {
@@ -263,19 +313,37 @@ class AccountService extends BaseService
     }
     
     public function getTasks($param) {
-        ;
+        if(isset($param)){
+            //todo
+        }else{
+            $tasks=TaskModel::all();
+        }
+        return $tasks;
     }
     
-    public function saveTask($param) {
-        ;
+    public function saveTask($param=array()) {
+        if($param['id']){
+            $task=$this->getTaskById($param['id']);
+            $result=$task->allowField(true)->validate(true)->editData(['id'=>$param['id']], $param);
+            return $task->getMessage($result);
+        }else{
+            $auth=new TaskModel();
+            $result=$task->allowField(true)->validate(true)->addData($param);
+            return $task->getMessage($result);
+        }
     }
     
     public function saveTasks($param) {
         ;
     }
     
-    public function deleteTask($param) {
-        ;
+    public function deleteTask($param=array()) {
+        $task=$this->getTaskById($param['id']);
+        if($task!=null){
+            $result = $role->deleteData($param);
+            return $result;
+        }
+        return false;
     }
     
     public function deleteTasks($param) {

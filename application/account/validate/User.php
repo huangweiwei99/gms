@@ -15,5 +15,6 @@ class User extends BaseValidate
     protected $scene = [
         'edit'  =>  ['username','email','phone'],
         'add'   => ['username','email','phone','password'],
+        'updatepw'=>['password']
     ];
 }

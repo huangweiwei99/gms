@@ -19,7 +19,7 @@ class Todo extends AdminController
 {
     public function index()
     {
-        $projects= ProjectModel::all();
+        $projects= $this->accountService()->getProjects();
         $branch=BranchModel::all();
         $assign=array('projects'=>$projects,'branch'=>$branch);
         return view()->assign($assign);
@@ -33,6 +33,8 @@ class Todo extends AdminController
     public function save(Request $request)
     {
         $data = $request->param();
+        $result=$this->accountService()->saveProject($data);
+        return json($result);
         if ($data['id'] != 0) {
             $id = $data['id'];
         }else{
