@@ -3,6 +3,7 @@
 namespace app\common\controller;
 
 use app\common\service\AccountService;
+use app\common\service\OAService;
 use app\system\model\Settings;
 use think\Request;
 use think\Session;
@@ -167,6 +168,10 @@ class Admin extends Base
     
     public function accountService($param=null) {
        return new AccountService();
+    }
+    
+    public function OAService($param=null) {
+        return new OAService();
     }
 }
 

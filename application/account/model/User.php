@@ -29,8 +29,7 @@ class User extends AccountBaseModel
         }
         return $array;
     }
-    
-    
+       
     public function profile()
     {
         return $this->hasOne('\\app\\account\\model\\Profile');

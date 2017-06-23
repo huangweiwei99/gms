@@ -7,7 +7,6 @@ use Exception;
 
 class Branch extends OABaseModel
 {
-
     public function profiles()
     {
         return $this->hasMany('\\app\\account\\model\\Profile')->field('id,first_name,last_name,branch_id');
@@ -28,6 +27,27 @@ class Branch extends OABaseModel
         return $name;
     }
 
+    public function branchInProfileIdsArray()
+    {
+        $array=array();
+        foreach ($this->profiles()->select() as $profile){
+            array_push($array,$profile->branch_id);
+        }
+        return $array;
+    }
+    
+    public function branchInProfiles()
+    {
+        if(count($this->profiles()->select())){
+            $profiles=ProfileModel::all(function($query){
+                $query->where("branch_id='' OR branch_id=".$this->id);
+            });
+        }else{
+            $profiles=ProfileModel::all(['branch_id'=>'']);
+        }
+        return $profiles;
+    }
+    
     public function editData($map, $data)
     {
         // 去除键值首位空格

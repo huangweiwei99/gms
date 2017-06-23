@@ -96,7 +96,7 @@ class AccountService extends BaseService
     
     public function getProfiles($param=null) {
         if(isset($param)){
-            //todo
+            $profiles=ProfileModel::all($param);
         }else{
             $profiles=ProfileModel::all();
         }
@@ -200,7 +200,6 @@ class AccountService extends BaseService
         return $auth;
     }
     
-   
     public function getAuth($param) {
         ;
     }

@@ -12,8 +12,6 @@ class Role extends AccountBaseModel
         return $data['permission']===''?$value:implode(',', $data['permission']);
     }
 
-    
-    
     public function setStatusAttr($value, $data)
     {
        return 1;

@@ -10,6 +10,7 @@ namespace app\account\controller;
 
 use app\common\controller\Admin as AdminController;
 use think\Request;
+use think\Session;
 
 class Profile extends AdminController
 {
