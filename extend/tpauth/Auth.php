@@ -139,7 +139,7 @@ class Auth
         // 用户组数据表名
         'auth_group'        => 'role',//'auth_group',
         // 用户-用户组关系表
-        'auth_group_access' => 'access',//'auth_group_access',
+        'auth_group_access' => 'user_role',//'auth_group_access',
         // 权限规则表
         'auth_rule'         => 'auth',//'auth_rule',
         // 用户信息表

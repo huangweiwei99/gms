@@ -18,7 +18,7 @@ class User extends AccountBaseModel
 
     public function roles()
     {
-        return $this->belongsToMany('Role', '\\app\\account\\model\\Access');
+        return $this->belongsToMany('Role');
     }
 
     public function userInRolesIdArray()

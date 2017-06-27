@@ -4,6 +4,7 @@ namespace app\common\controller;
 
 use app\common\service\AccountService;
 use app\common\service\OAService;
+use app\common\service\SystemService;
 use app\system\model\Settings;
 use think\Request;
 use think\Session;
@@ -74,7 +75,6 @@ class Admin extends Base
     private function getMenu(){
         $menu=new MenuModel();
         $menus=$menu->getTreeData('level','order_number,id');
-       // dump($menus);
         $assign=array('nav'=>$menus);
         $this->assign($assign);
 
@@ -172,6 +172,10 @@ class Admin extends Base
     
     public function OAService($param=null) {
         return new OAService();
+    }
+    
+    public function SystemService($param=null) {
+        return new SystemService();
     }
 }
 

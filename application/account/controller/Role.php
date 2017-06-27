@@ -19,9 +19,10 @@ class Role extends AdminController
     public function create($id=null)
     {
         $assign=array(
-            'auth_list'=>$this->accountService()->getAuthTree(),
+            'auth_list'=>$this->accountService()->getAuthLevel(),
             'role_permission'=>array()
         );
+       
         return view('form')->assign($assign);
     }
     
@@ -31,14 +32,12 @@ class Role extends AdminController
         $result=$this->accountService()->saveRole($data);
         return json($result);
     }
-    
-
 
     public function read($id)
     {
         $role = $this->accountService()->getRoleById($id);
         $assign=array('role'=>$role,
-            'auth_list'=>$this->accountService()->getAuthTree(),
+            'auth_list'=>$this->accountService()->getAuthLevel(),
             'role_permission'=>explode(',', $role->permission)
         );
         return view('form')->assign($assign);
