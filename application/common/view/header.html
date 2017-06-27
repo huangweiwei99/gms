@@ -3,7 +3,6 @@
     <div class="page-header-inner ">
         <!-- BEGIN LOGO -->
         <div class="page-logo">
-
             <a href="__ROOT__/index/admin/index">
                 <img src="__STATIC__/assets/layouts/layout/img/logo.png" alt="logo" class="logo-default" /> </a>
             <div class="menu-toggler sidebar-toggler">
@@ -313,9 +312,11 @@
                 <li class="dropdown dropdown-user">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                         <!--<img alt="" class="img-circle" src="__STATIC__/assets/layouts/layout/img/avatar3_small.jpg" />-->
-                        <img {empty name="$Think.session.user['avatar']"} src="__STATIC__/assets/global/img/no-image.png"
+                        <img {empty name="$Think.session.user['avatar']"}
+                        		 src="__STATIC__/assets/global/img/no-image.png"
                              {else /}
-                        src="__ROOT__/uploads/avatar/{$Think.session.user['avatar']}" {/empty}
+                        		src="__ROOT__/uploads/avatar/{$Think.session.user['avatar']}"
+                        	 {/empty}
                         class="img-circle" alt=""/>
                         <span class="username username-hide-on-mobile">{$Think.session.user['username']|default='没有登录'} </span>
                         <i class="fa fa-angle-down"></i>
