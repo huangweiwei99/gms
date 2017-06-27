@@ -16,19 +16,25 @@
         <div class="profile-sidebar">
             <div class="portlet light profile-sidebar-portlet bordered">
                 <div class="profile-userpic">
-                    <img {empty name="$user->profile->avatar"} src="__STATIC__/assets/global/img/no-image.png"
+                    <img 
+                    	{empty name="$user->profile->avatar"} 
+                    		src="__STATIC__/assets/global/img/no-image.png"
                          {else /}
-                    src="__ROOT__/uploads/avatar/{$user->profile->avatar}" {/empty}
-                    class="img-responsive" alt=""/> </div>
+                    		src="__ROOT__/uploads/avatar/{$user->profile->avatar}" 
+                    	{/empty}
+                    class="img-responsive" alt=""/>
+                </div>
 
                 <div class="profile-usertitle">
                     <div class="profile-usertitle-name"> {$user->profile->last_name|default=''} {$user->profile->first_name|default=''}</div>
                     <div class="profile-usertitle-job"> {$user->profile->position|default=''} </div>
-                </d
+                </div>
+                
                 <div class="profile-userbuttons">
                     <button type="button" class="btn btn-circle green btn-sm">关注</button>
                     <button type="button" class="btn btn-circle red btn-sm">发信息</button>
                 </div>
+                
                 <div class="profile-usermenu">
                     <ul class="nav">
                         <li class="active">
@@ -1471,5 +1477,6 @@
             </div>
         </div>
     </div>
+	</div>
 </div>
 {/block}

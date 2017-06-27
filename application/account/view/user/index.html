@@ -35,9 +35,11 @@
                             <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                                 <div class="mt-card-item">
                                     <div class="mt-card-avatar mt-overlay-1">
-                                        <img {empty name="$user->profile->avatar"} src="__STATIC__/assets/global/img/no-image.png"
+                                        <img {empty name="$user->profile->avatar"} 
+                                        		src="__STATIC__/assets/global/img/no-image.png"
                                              {else /}
-                                        src="__ROOT__/uploads/avatar/{$user->profile->avatar}" {/empty}
+                                        		src="__ROOT__/uploads/avatar/{$user->profile->avatar}"
+                                        	 {/empty}
                                         class="img-responsive" alt=""/>
                                         <div class="mt-overlay">
                                             <ul class="mt-info">
